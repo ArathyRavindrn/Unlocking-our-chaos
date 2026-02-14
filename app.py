@@ -26,6 +26,5 @@ def index():
     )
 
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=False)
+# Remove the if __name__ block - let Gunicorn handle it
+
