@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Unlocking Our Chaos</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="card">
+      <!-- INTRO SCREEN -->
+      <section id="intro-screen" class="screen active">
+        <div class="intro-content">
+          <p class="intro-greeting">{{ intro.greeting_emoji }} {{ intro.greeting }}</p>
+          <p class="intro-question">{{ intro.question }}</p>
+          <div class="intro-buttons">
+            <button type="button" class="btn btn-pink btn-yes">{{ intro.yes_button }}</button>
+            <button type="button" class="btn btn-grey btn-no" data-initial="{{ intro.no_button }}">{{ intro.no_button }}</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUIZ SCREEN -->
+      <section id="quiz-screen" class="screen">
+        <div class="header-section">
+          <div class="image-grid">
+            {% for path in image_paths %}
+              {% if use_pink_block and loop.last %}
+                <div class="img-cell pink-block"></div>
+              {% else %}
+                <div class="img-cell"><img src="{{ path }}" alt="" /></div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="title-bar">{{ title }}</div>
+        </div>
+        <div class="quiz-section">
+          <p class="question-label"><span class="q-emoji"></span> Q<span class="q-num"></span></p>
+          <p class="question-text"></p>
+          <div class="options"></div>
+        </div>
+        <div class="footer-section">
+          <div class="footer-row">
+            <div class="profile-row">
+              <div class="avatar"></div>
+              <span class="username">{{ footer.username }}</span>
+            </div>
+            <button type="button" class="btn-follow">{{ footer.follow_button }}</button>
+          </div>
+          <p class="music">{{ footer.music }}</p>
+          <p class="caption">{{ footer.caption }}</p>
+        </div>
+      </section>
+
+      <!-- SUCCESS SCREEN -->
+      <section id="success-screen" class="screen">
+        <div class="success-content">
+          <h1 class="success-heading">{{ success.heading }}</h1>
+          <p class="success-line1">{{ success.line1 }}</p>
+          <p class="success-line2">{{ success.line2 }}</p>
+          <p class="success-line3">{{ success.line3 }}</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- RIGHT SIDEBAR (social-style icons) -->
+    <aside class="sidebar">
+      <div class="sidebar-item">
+        <span class="icon icon-heart">❤️</span>
+        <span class="count">{{ sidebar.likes }}</span>
+      </div>
+      <div class="sidebar-item">
+        <span class="icon icon-comment">💬</span>
+        <span class="count">{{ sidebar.comments }}</span>
+      </div>
+      <div class="sidebar-item">
+        <span class="icon icon-share">↗️</span>
+        <span class="count">{{ sidebar.shares }}</span>
+      </div>
+      <div class="sidebar-item">
+        <span class="icon icon-save">🔖</span>
+        <span class="count">{{ sidebar.saves }}</span>
+      </div>
+      <div class="sidebar-item">
+        <span class="icon icon-more">⋯</span>
+        <span class="count">{{ sidebar.more }}</span>
+      </div>
+    </aside>
+  </div>
+
+  <!-- WRONG ANSWER MODAL -->
+  <div id="wrong-modal" class="modal hidden">
+    <div class="modal-box">
+      <p class="modal-title"></p>
+      <p class="modal-message"></p>
+      <button type="button" class="btn btn-pink btn-try-again"></button>
+    </div>
+  </div>
+
+  <script>
+    // eslint-disable-next-line no-undef
+    window.quizConfig = {
+      questions: {{ questions | tojson }},
+      wrongMessages: {{ wrong_messages | tojson }},
+    };
+  </script>
+  <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+</body>
+</html>
